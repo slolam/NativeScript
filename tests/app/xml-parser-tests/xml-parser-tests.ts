@@ -5,7 +5,7 @@
 import * as TKUnit from "../tk-unit";
 import * as xmlModule from "@nativescript/core/xml";
 import * as fs from "@nativescript/core/file-system";
-import * as builder from "@nativescript/core/ui/builder";
+import { Builder } from "@nativescript/core/ui/builder";
 
 export var test_XmlParser_IsDefined = function () {
     TKUnit.assertNotEqual(xmlModule.XmlParser, undefined, "Class XmlParser should be defined!");
@@ -213,7 +213,7 @@ export var test_XmlParser_NamespacesTest = function () {
 export function test_MultiParserTemplate() {
     const xml = global.loadModule("xml-parser-tests/itemTemplates.xml", true);
 
-    const view: any = builder.parse(xml);
+    const view: any = Builder.parse(xml);
     TKUnit.assertNotNull(view.items);
     TKUnit.assertEqual(view.items.length, 1);
 }
