@@ -26,6 +26,7 @@ export class TabStripItem extends View implements TabStripItemDefinition, AddChi
 
     public image: Image;
     public label: Label;
+    public _index: number;
 
     private _title: string;
     private _iconSource: string;
