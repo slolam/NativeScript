@@ -1,4 +1,4 @@
-import * as http from "@nativescript/core/http";
+import * as http from "tns-core-modules/http";
 
 declare var postMessage: any;
 

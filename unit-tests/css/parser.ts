@@ -10,10 +10,10 @@ import {
     CSS3Parser,
     TokenObjectType,
     CSSNativeScript,
-} from "@nativescript/core/css/parser";
+} from "tns-core-modules/css/parser";
 import {
     parse
-} from "@nativescript/core/css";
+} from "tns-core-modules/css";
 
 import * as fs from "fs";
 import * as shadyCss from 'shady-css-parser';

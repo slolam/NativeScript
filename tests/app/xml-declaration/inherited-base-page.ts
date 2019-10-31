@@ -1,4 +1,4 @@
-import { Page } from "@nativescript/core/ui/page";
+import { Page } from "tns-core-modules/ui/page";
 
 export class InheritedPage extends Page {
 }

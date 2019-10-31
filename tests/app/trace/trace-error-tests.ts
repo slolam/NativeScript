@@ -1,7 +1,7 @@
 import {
     ErrorHandler, getErrorHandler, setErrorHandler, DefaultErrorHandler,
     error as traceError
-} from "@nativescript/core/trace";
+} from "tns-core-modules/trace";
 import * as TKUnit from "../tk-unit";
 
 let cachedErrorHandler: ErrorHandler;

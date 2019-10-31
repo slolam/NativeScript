@@ -1,12 +1,12 @@
 import * as TKUnit from "../../tk-unit";
 import * as helper from "../../ui-helper";
-import { Label } from "@nativescript/core/ui/label";
-import { StackLayout } from "@nativescript/core/ui/layouts/stack-layout";
-import { Frame } from "@nativescript/core/ui/frame";
-import { Page } from "@nativescript/core/ui/page";
-import { ListView, ItemEventData } from "@nativescript/core/ui/list-view";
-import { Tabs, TabContentItem, TabStrip, TabStripItem } from "@nativescript/core/ui/tabs";
-import { Button } from "@nativescript/core/ui/button";
+import { Label } from "tns-core-modules/ui/label";
+import { StackLayout } from "tns-core-modules/ui/layouts/stack-layout";
+import * as frameModule from "tns-core-modules/ui/frame";
+import { Page } from "tns-core-modules/ui/page";
+import { ListView, ItemEventData } from "tns-core-modules/ui/list-view";
+import { Tabs, TabContentItem, TabStrip, TabStripItem } from "tns-core-modules/ui/tabs";
+import { Button } from "tns-core-modules/ui/button";
 
 var ASYNC = 2;
 
@@ -82,8 +82,8 @@ function _clickHandlerFactory(index: number) {
     };
 }
 
-function _createFrameView(): Frame {
-    const frame = new Frame();
+function _createFrameView(): frameModule.Frame {
+    const frame = new frameModule.Frame();
     frame.navigate({ create: () => new Page() });
 
     return frame;
@@ -91,7 +91,7 @@ function _createFrameView(): Frame {
 
 export function testBackNavigationToTabViewWithNestedFramesShouldWork() {
     // https://github.com/NativeScript/NativeScript/issues/6490
-    const topFrame = Frame.topmost();
+    const topFrame = frameModule.topmost();
 
     let tabViewPage: Page;
     let tabView: Tabs;
@@ -135,7 +135,7 @@ export function testBackNavigationToTabViewWithNestedFramesShouldWork() {
 }
 
 export function testWhenNavigatingBackToANonCachedPageContainingATabViewWithAListViewTheListViewIsThere() {
-    var topFrame = Frame.topmost();
+    var topFrame = frameModule.topmost();
 
     let tabViewPage: Page;
     let tabView: Tabs;
@@ -177,10 +177,10 @@ export function testWhenNavigatingBackToANonCachedPageContainingATabViewWithALis
     // This will navigate to a details page. The wait is inside the method.
     _clickTheFirstButtonInTheListViewNatively(tabView);
 
-    Frame.goBack();
+    frameModule.goBack();
     TKUnit.waitUntilReady(() => topFrame.navigationQueueIsEmpty()); //() => topFrame.currentPage === tabViewPage);
 
-    Frame.goBack();
+    frameModule.goBack();
 
     TKUnit.waitUntilReady(() => topFrame.currentPage === rootPage);
 
@@ -208,7 +208,7 @@ function tabViewIsFullyLoaded(tabView: Tabs): boolean {
 }
 
 export function testLoadedAndUnloadedAreFired_WhenNavigatingAwayAndBack() {
-    let topFrame = Frame.topmost();
+    let topFrame = frameModule.topmost();
     let rootPage = helper.getCurrentPage();
 
     let itemCount = 2;

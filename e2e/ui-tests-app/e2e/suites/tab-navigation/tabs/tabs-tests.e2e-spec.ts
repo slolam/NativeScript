@@ -277,7 +277,7 @@ describe(`${imagePrefix}-suite`, async function () {
         await driver.imageHelper.compareScreen();
 
         const secondTab = await driver.waitForElement("second-tab");
-        await secondTab.click();
+        await secondTab.tap();
         await driver.imageHelper.compareScreen();
 
         assert.isTrue(driver.imageHelper.hasImageComparisonPassed());

@@ -1,5 +1,5 @@
 // >> color-require
-import * as colorModule from "@nativescript/core/color";
+import * as colorModule from "tns-core-modules/color";
 var Color = colorModule.Color;
 // << color-require
 import * as TKUnit from "../tk-unit";

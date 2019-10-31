@@ -15,7 +15,7 @@ export class StylesPage extends PageObjectBaseModel {
     }
 
     async tapAppBtn() {
-        await (await this.btnApp()).click();
+        await (await this.btnApp()).tap();
         logInfo(`Tap on '${this.app}' button.`);
     }
 }

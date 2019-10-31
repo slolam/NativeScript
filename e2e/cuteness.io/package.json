@@ -13,8 +13,7 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
-    "@nativescript/core": "file:../../nativescript-core",
-    "tns-core-modules": "file:../../dist/tns-core-modules"
+    "tns-core-modules": "file:../../tns-core-modules"
   },
   "devDependencies": {
     "nativescript-dev-webpack": "next",

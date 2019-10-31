@@ -1,9 +1,10 @@
-import { ImageSource } from "@nativescript/core/image-source";
-import * as fs from "@nativescript/core/file-system";
+import * as imageSource from "tns-core-modules/image-source";
+import * as fs from "tns-core-modules/file-system";
 // >> imagesource-from-imageasset-save-to
 
 export function imageSourceFromAsset(imageAsset) {
-    ImageSource.fromAsset(imageAsset).then((imageSource) => {
+    let source = new imageSource.ImageSource();
+    source.fromAsset(imageAsset).then((imageSource) => {
         let folder = fs.knownFolders.documents().path;
         let fileName = "test.png";
         let path = fs.path.join(folder, fileName);

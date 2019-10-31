@@ -1,10 +1,10 @@
-﻿import { ImageSource } from "@nativescript/core/image-source";
-import * as imageAssetModule from "@nativescript/core/image-asset";
-import * as fs from "@nativescript/core/file-system";
-import * as app from "@nativescript/core/application";
+﻿import * as imageSource from "tns-core-modules/image-source";
+import * as imageAssetModule from "tns-core-modules/image-asset";
+import * as fs from "tns-core-modules/file-system";
+import * as app from "tns-core-modules/application";
 import * as TKUnit from "../tk-unit";
-import { Font } from "@nativescript/core/ui/styling/font";
-import { Color } from "@nativescript/core/color";
+import { Font } from "tns-core-modules/ui/styling/font";
+import { Color } from "tns-core-modules/color";
 
 const imagePath = "~/assets/logo.png";
 const splashscreenPath = "~/assets/splashscreen.png";
@@ -14,18 +14,18 @@ const smallImagePath = "~/assets/small-image.png";
 
 export function testFromResource() {
     // >> imagesource-resname
-    const img = ImageSource.fromResourceSync("icon");
+    const img = imageSource.fromResource("icon");
     // << imagesource-resname
 
     TKUnit.assert(img.height > 0, "image.fromResource failed");
 }
 
 export function testFromUrl(done) {
-    let result: ImageSource;
+    let result: imageSource.ImageSource;
 
     // Deprecated method fromUrl
-    ImageSource.fromUrl("https://www.google.com/images/errors/logo_sm_2.png")
-        .then((res: ImageSource) => {
+    imageSource.fromUrl("https://www.google.com/images/errors/logo_sm_2.png")
+        .then((res: imageSource.ImageSource) => {
             // console.log("Image successfully loaded");
             // completed = true;
             result = res;
@@ -46,7 +46,7 @@ export function testFromUrl(done) {
 
 export function testSaveToFile() {
     // >> imagesource-save-to
-    const img = ImageSource.fromFileSync(imagePath);
+    const img = imageSource.fromFile(imagePath);
     const folder = fs.knownFolders.documents();
     const path = fs.path.join(folder.path, "test.png");
     const saved = img.saveToFile(path, "png");
@@ -56,7 +56,7 @@ export function testSaveToFile() {
 }
 
 export function testSaveToFile_WithQuality() {
-    const img = ImageSource.fromFileSync(imagePath);
+    const img = imageSource.fromFile(imagePath);
     const folder = fs.knownFolders.documents();
     const path = fs.path.join(folder.path, "test.png");
     const saved = img.saveToFile(path, "png", 70);
@@ -68,7 +68,7 @@ export function testFromFile() {
     // >> imagesource-load-local
     const folder = fs.knownFolders.documents();
     const path = fs.path.join(folder.path, "test.png");
-    const img = ImageSource.fromFileSync(path);
+    const img = imageSource.fromFile(path);
     // << imagesource-load-local
 
     TKUnit.assert(img.height > 0, "image.fromResource failed");
@@ -87,7 +87,7 @@ export function testFromAssetFileNotFound(done) {
         keepAspectRatio: true
     };
 
-    ImageSource.fromAsset(asset).then((source) => {
+    imageSource.fromAsset(asset).then((source) => {
         done("Should not resolve with invalid file name.");
     }, (error) => {
         TKUnit.assertNotNull(error);
@@ -103,7 +103,7 @@ export function testFromAssetSimple(done) {
         keepAspectRatio: true
     };
 
-    ImageSource.fromAsset(asset).then((source) => {
+    imageSource.fromAsset(asset).then((source) => {
         TKUnit.assertEqual(source.width, splashscreenWidth);
         TKUnit.assertEqual(source.height, splashscreenHeight);
         done();
@@ -123,7 +123,7 @@ export function testFromAssetWithExactScaling(done) {
         autoScaleFactor: false
     };
 
-    ImageSource.fromAsset(asset).then((source) => {
+    imageSource.fromAsset(asset).then((source) => {
         TKUnit.assertEqual(source.width, scaleWidth);
         TKUnit.assertEqual(source.height, scaleHeight);
 
@@ -134,7 +134,8 @@ export function testFromAssetWithExactScaling(done) {
         const fullImageSaved = source.saveToFile(localFullPath, "png");
 
         if (fullImageSaved) {
-            ImageSource.fromFile(localFullPath).then((sourceImage) => {
+            let sourceImage = new imageSource.ImageSource();
+            sourceImage.fromFile(localFullPath).then(() => {
                 TKUnit.assertEqual(sourceImage.width, scaleWidth);
                 TKUnit.assertEqual(sourceImage.height, scaleHeight);
                 done();
@@ -157,7 +158,7 @@ export function testFromAssetWithScalingAndAspectRatio(done) {
         keepAspectRatio: true
     };
 
-    ImageSource.fromAsset(asset).then((source) => {
+    imageSource.fromAsset(asset).then((source) => {
         TKUnit.assertEqual(source.width, 18);
         TKUnit.assertEqual(source.height, scaleHeight);
         done();
@@ -173,7 +174,7 @@ export function testFromAssetWithScalingAndDefaultAspectRatio(done) {
     asset.options.width = scaleWidth;
     asset.options.height = scaleHeight;
 
-    ImageSource.fromAsset(asset).then((source) => {
+    imageSource.fromAsset(asset).then((source) => {
         TKUnit.assertEqual(source.width, 18);
         TKUnit.assertEqual(source.height, scaleHeight);
         done();
@@ -192,7 +193,7 @@ export function testFromAssetWithBiggerScaling(done) {
         keepAspectRatio: false
     };
 
-    ImageSource.fromAsset(asset).then((source) => {
+    imageSource.fromAsset(asset).then((source) => {
         TKUnit.assertEqual(source.width, scaleWidth);
         TKUnit.assertEqual(source.height, scaleHeight);
         done();
@@ -202,7 +203,7 @@ export function testFromAssetWithBiggerScaling(done) {
 }
 
 export function testNativeFields() {
-    const img = ImageSource.fromFileSync(imagePath);
+    const img = imageSource.fromFile(imagePath);
     if (app.android) {
         TKUnit.assert(img.android != null, "Image.android not updated.");
     } else if (app.ios) {
@@ -218,7 +219,7 @@ const expectedPngStart = "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAA";
 
 export function testBase64Encode_PNG() {
     // >> imagesource-to-base-string
-    const img = ImageSource.fromFileSync(smallImagePath);
+    const img = imageSource.fromFile(smallImagePath);
     let base64String = img.toBase64String("png");
     // << imagesource-to-base-string
 
@@ -230,7 +231,7 @@ export function testBase64Encode_PNG() {
 }
 
 export function testBase64Encode_PNG_WithQuality() {
-    const img = ImageSource.fromFileSync(smallImagePath);
+    const img = imageSource.fromFile(smallImagePath);
     let base64String = img.toBase64String("png", 80);
     base64String = base64String.substr(0, expectedPngStart.length);
     TKUnit.assertEqual(
@@ -240,7 +241,7 @@ export function testBase64Encode_PNG_WithQuality() {
 }
 
 export function testBase64Encode_JPEG() {
-    const img = ImageSource.fromFileSync(smallImagePath);
+    const img = imageSource.fromFile(smallImagePath);
 
     let base64String = img.toBase64String("jpeg");
     base64String = base64String.substr(0, expectedJpegStart.length);
@@ -252,7 +253,7 @@ export function testBase64Encode_JPEG() {
 }
 
 export function testBase64Encode_JPEG_With_Quality() {
-    const img = ImageSource.fromFileSync(smallImagePath);
+    const img = imageSource.fromFile(smallImagePath);
 
     let base64String = img.toBase64String("jpeg", 80);
     base64String = base64String.substr(0, expectedJpegStart.length);
@@ -265,8 +266,8 @@ export function testBase64Encode_JPEG_With_Quality() {
 
 export function testLoadFromBase64Encode_JPEG() {
     // >> imagesource-from-base-string
-    let img: ImageSource;
-    img = ImageSource.fromBase64Sync(jpgImageAsBase64String);
+    let img: imageSource.ImageSource;
+    img = imageSource.fromBase64(jpgImageAsBase64String);
     // << imagesource-from-base-string
 
     TKUnit.assert(img !== null, "Actual: " + img);
@@ -275,11 +276,11 @@ export function testLoadFromBase64Encode_JPEG() {
 }
 
 export function testLoadFromBase64Encode_PNG() {
-    let img: ImageSource;
+    let img: imageSource.ImageSource;
     if (app.android) {
-        img = ImageSource.fromBase64Sync(fullAndroidPng);
+        img = imageSource.fromBase64(fullAndroidPng);
     } else if (app.ios) {
-        img = ImageSource.fromBase64Sync(fullIosPng);
+        img = imageSource.fromBase64(fullIosPng);
     }
 
     TKUnit.assert(img !== null, "Actual: " + img);
@@ -288,8 +289,8 @@ export function testLoadFromBase64Encode_PNG() {
 }
 
 export function testLoadFromFontIconCode() {
-    let img: ImageSource;
-    img = ImageSource.fromFontIconCodeSync("F10B", Font.default.withFontFamily("FontAwesome"), new Color("red"));
+    let img: imageSource.ImageSource;
+    img = imageSource.fromFontIconCode("F10B", Font.default.withFontFamily("FontAwesome"), new Color("red"));
 
     TKUnit.assert(img !== null, "Actual: " + img);
     TKUnit.assert(img.width !== null, "img.width");

@@ -1,5 +1,5 @@
-﻿import { Frame } from "@nativescript/core/ui/frame";
+﻿import * as frame from "tns-core-modules/ui/frame";
 
 export function buttonTap(args) {
-    Frame.topmost().goBack();
+    frame.topmost().goBack();
 }
